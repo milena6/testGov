@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "incremental": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@tests/*": ["tests/*"],
+      "@pages/*": ["pages/*"]
+    }
+  },
+  "include": ["**/*.js", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "out"]
+}
