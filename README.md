@@ -10,16 +10,13 @@ Automated Playwright tests for verifying the basic functionality of [gov.pl](htt
    Central search box for finding information and services.
 
 2. User-targeted Tabs
-   “Dla Obywatela”, “Dla Przedsiębiorcy”, “Dla Urzędnika”, “Dla Rolnika”—each opens dedicated content.
+   “Dla Obywatela”, “Dla Przedsiębiorcy”, “Dla Urzędnika”, “Dla Rolnika”. Each opens dedicated content.
 
-3. Public-Service Catalog
-   Display of government services (e‑Prescription, 500+, registrations).
-
-4. Public Forms (Unauthenticated)
-   Client-side validated forms accessible to public users.
+3. Filtering search
+   Filter searched information.
 
 5. Responsiveness
-   Mobile-first design
+   Mobile-first design and cross-browser testing
 
 ## ⚖️ Legal Constraints & Best Practices
 
@@ -84,17 +81,17 @@ BASE_URL=https://gov.pl npx playwright test
 
 ## 🔧 Best Practices
 
-- Page Object Model with pure functions
 - Use of test.step() for better traceability in test reports
 - Tests are isolated and repeatable
 - Using Playwright recommended locators (getByRole, getByPlaceholder)
 - Environment configurable via `BASE_URL`
 - Descriptive test names and grouped with `test.describe`
 - Clear assertions verifying key page elements
-- Parallel execution & CI with test report storage in GitHub Pages (currently dummy disabled by adding a condition to run only on `never-activated-branch`)
-- Page Object Pattern: page definitions in pages/, test logic in tests/
+- Parallel execution
+- CI with test report storage in GitHub Pages (currently dummy disabled by adding a condition to run only on `never-activated-branch`)
+- Page Object Pattern: page definitions in pages/, test logic in tests/ - for readability and maintenance
 
 ## 🔄 Future Enhancements
 
 - Lighthouse performance analysis
-- WCAG tests with `@axe-core/playwright`
+- WCAG tests, potentially with `@axe-core/playwright`
