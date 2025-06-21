@@ -5,4 +5,5 @@ export const URLS = {
   DLA_OBYWATELA: `${BASE_URL}/web/gov/uslugi-dla-obywatela`,
   DLA_PRZEDSIEBIORCY: `${BASE_URL}/web/gov/uslugi-dla-obywatela`,
   DLA_URZEDNIKA: `${BASE_URL}/web/gov/uslugi-dla-obywatela`,
+  PIECSET_PLUS_ARTICLE: `${BASE_URL}/web/rodzina/poznaj-program-rodzina-500-plus-czesc-i`,
 };

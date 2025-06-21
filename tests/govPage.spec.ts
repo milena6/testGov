@@ -21,7 +21,7 @@ test.describe("Gov.pl Home Page Tests", () => {
   test("should perform search and show results", async ({ page }) => {
     const home = GovHomePage(page);
     const resultsPage = ResultsPage(page);
-    const searchTerm = "paszport";
+    const searchTerm = "500+";
 
     await test.step(`Search for term: ${searchTerm}`, async () => {
       await home.searchInput.fill(searchTerm);
@@ -32,26 +32,32 @@ test.describe("Gov.pl Home Page Tests", () => {
       await expect(page.getByText(searchTerm)).toBeVisible();
       await expect(resultsPage.noResults).not.toBeVisible();
     });
+    await test.step(`Find 500+ article`, async () => {
+      await resultsPage.piecsetPlusLink.click();
+      await expect(page.url).toBe(URLS.PIECSET_PLUS_ARTICLE);
+      await expect(
+        page.getByText("Czym jest Program „Rodzina 500 plus”?")
+      ).toBeVisible();
+    });
   });
 
-  test("should navigate to tab: Dla Obywatela", async ({ page }) => {
+  test("Dla Obywatela tab is open by default and has content", async ({
+    page,
+  }) => {
     const home = GovHomePage(page);
 
-    await test.step("Navigate to tab: Dla Obywatela", async () => {
+    await test.step("Specific page content is visible", async () => {
       await expect(home.tabObywatel).toBeVisible();
-      await home.tabObywatel.click();
-      await expect(page).toHaveURL(URLS.DLA_OBYWATELA);
+      await expect(home.dokumentyDlaObywatela).toBeVisible();
     });
   });
 
   test("should navigate to tab: Dla Przedsiębiorcy", async ({ page }) => {
     const home = GovHomePage(page);
 
-    await test.step("Navigate to tab: Dla Przedsiębiorcy -> Tarcza Antykryzysowa", async () => {
-      await expect(home.tabPrzedsiebiorca).toBeVisible();
+    await test.step("Specific page content is visible", async () => {
       await home.tabPrzedsiebiorca.click();
-      await expect(page).toHaveURL(/przedsiebiorcy/);
-      await expect(home.main).toBeVisible();
+      await expect(home.tarczaAntykryzysowa).toBeVisible();
     });
   });
 
@@ -59,10 +65,9 @@ test.describe("Gov.pl Home Page Tests", () => {
     const home = GovHomePage(page);
 
     await test.step("Navigate to tab: Dla Urzędnika", async () => {
-      await expect(home.tabUrzednik).toBeVisible();
       await home.tabUrzednik.click();
-      await expect(page).toHaveURL(/urzednika/);
-      await expect(home.main).toBeVisible();
+      await expect(home.tarczaAntykryzysowa).toBeVisible();
+      await expect(home.sprawyPubliczne).toBeVisible();
     });
   });
 
@@ -70,10 +75,8 @@ test.describe("Gov.pl Home Page Tests", () => {
     const home = GovHomePage(page);
 
     await test.step("Navigate to tab: Dla Rolnika", async () => {
-      await expect(home.tabRolnik).toBeVisible();
       await home.tabRolnik.click();
-      await expect(page).toHaveURL(/rolnika/);
-      await expect(home.main).toBeVisible();
+      await expect(home.ubezpieczeniaSpoleczne).toBeVisible();
     });
   });
 });
