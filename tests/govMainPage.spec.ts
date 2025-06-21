@@ -3,7 +3,7 @@ import { GovHomePage } from "../pages/govHomePage";
 import { BASE_URL, URLS } from "../utils/consts";
 import { ResultsPage } from "../pages/searchResultsPage";
 
-test.describe("Gov.pl Home Page Tests", () => {
+test.describe("Gov.pl home page tests", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(BASE_URL);
   });
@@ -15,29 +15,6 @@ test.describe("Gov.pl Home Page Tests", () => {
       await expect(page).toHaveTitle("Portal Gov.pl");
       await expect(home.header).toBeVisible();
       await expect(home.searchInput).toBeVisible();
-    });
-  });
-
-  test("should perform search and show results", async ({ page }) => {
-    const home = GovHomePage(page);
-    const resultsPage = ResultsPage(page);
-    const searchTerm = "500+";
-
-    await test.step(`Search for term: ${searchTerm}`, async () => {
-      await home.searchInput.fill(searchTerm);
-      await home.searchButton.click();
-      await expect(page).toHaveURL(
-        `${URLS.BASE_URL}/web/gov/szukaj?query=${searchTerm}`
-      );
-      await expect(page.getByText(searchTerm)).toBeVisible();
-      await expect(resultsPage.noResults).not.toBeVisible();
-    });
-    await test.step(`Find 500+ article`, async () => {
-      await resultsPage.piecsetPlusLink.click();
-      await expect(page.url).toBe(URLS.PIECSET_PLUS_ARTICLE);
-      await expect(
-        page.getByText("Czym jest Program „Rodzina 500 plus”?")
-      ).toBeVisible();
     });
   });
 

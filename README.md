@@ -23,7 +23,7 @@ Automated Playwright tests for verifying the basic functionality of [gov.pl](htt
 
 ## ⚖️ Legal Constraints & Best Practices
 
-Authenticated-only features (like “Mój GOV.PL”, ePUAP, e-ID) involve personal data and are behind login.
+These tests are read-only. Do not run them due to the automation prevention on gov.pl (captcha etc.)
 ❗ Automating these in production may violate data protection laws (e.g., GDPR) and terms of service.
 
 Normally, UI tests are run repeatedly (e.g., CI pipelines), but for gov.pl we intentionally limit testing on production to prevent:
@@ -34,7 +34,6 @@ Normally, UI tests are run repeatedly (e.g., CI pipelines), but for gov.pl we in
 
 Recommended Practices:
 Run full test suites in dev/staging where possible.
-Never automate login-required workflows in production to avoid legal complications.
 
 ## 📂 Project Structure
 
@@ -71,6 +70,12 @@ For headed mode:
 npx playwright test --ui
 ```
 
+Check the results:
+
+```bash
+npx playwright show-report
+```
+
 ### 3. Use different environment
 
 ```bash
@@ -86,7 +91,7 @@ BASE_URL=https://gov.pl npx playwright test
 - Environment configurable via `BASE_URL`
 - Descriptive test names and grouped with `test.describe`
 - Clear assertions verifying key page elements
-- Parallel execution & CI
+- Parallel execution & CI with test report storage in GitHub Pages (currently dummy disabled by adding a condition to run only on `never-activated-branch`)
 - Page Object Pattern: page definitions in pages/, test logic in tests/
 
 ## 🔄 Future Enhancements

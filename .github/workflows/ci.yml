@@ -1,0 +1,53 @@
+on:
+  push:
+    branches:
+      - never-activated-branch
+
+jobs:
+  test:
+    permissions:
+      id-token: write
+      pages: write
+    outputs:
+      timestamp: ${{ steps.timestampid.outputs.timestamp }}
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Run type checks
+        run: npm install typescript && npx tsc --noEmit
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test ./functional --reporter=html --output=playwright-report
+      - name: Set a timestamp
+        id: timestampid
+        run: echo "timestamp=$(date --utc +%Y%m%d_%H%M%SZ)" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report-${{ steps.timestampid.outputs.timestamp }}
+          path: playwright-report/
+          retention-days: 10
+      - name: Download report
+        uses: actions/download-artifact@v4
+        with:
+          pattern: playwright-report-*
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: playwright-report/
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Write URL in summary
+        run: echo "### Test results (link available after 20 secs) - https://milena6.github.io/testGov/" >> $GITHUB_STEP_SUMMARY
